@@ -1,0 +1,25 @@
+{
+  "name": "grokking-algorithms",
+  "version": "1.0.0",
+  "description": "Code and algo solutions to exercises and samples in Grokking Algorithms 2nd Edition",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petermckeeverPerform/grokking-algorithms.git"
+  },
+  "keywords": [
+    "grokking"
+  ],
+  "author": "Peter McKeever",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/petermckeeverPerform/grokking-algorithms/issues"
+  },
+  "homepage": "https://github.com/petermckeeverPerform/grokking-algorithms#readme",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
