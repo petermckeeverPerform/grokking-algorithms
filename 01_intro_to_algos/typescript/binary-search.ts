@@ -1,4 +1,4 @@
-function binarySearch<T>({
+function iterativeBinarySearch<T>({
   list,
   item,
 }: {
@@ -26,8 +26,64 @@ function binarySearch<T>({
   return null;
 }
 
-const list = [2,5,7,1,3,6,8,9,4];
-console.log("running	binary search");
-console.log("exected result: 2, output: ", binarySearch({ list, item: 3 }));
-console.log("exected result: 7, output: ", binarySearch({ list, item: 8 }));
-console.log("exected result: null, output: ", binarySearch({ list, item: -1 }));
+function recursiveBinarySearch<T>({
+  list,
+  low,
+  high,
+  item,
+}: {
+  list: T[];
+  low: number;
+  high: number;
+  item: T;
+}): number | null {
+  if (high >= low) {
+    const mid = Math.floor(high + low / 2);
+    const guess = list[mid];
+
+    if (guess === item) {
+      return mid;
+    } else if (guess > item) {
+      return recursiveBinarySearch({ list, low, high: mid - 1, item });
+    } else {
+      return recursiveBinarySearch({ list, low: mid + 1, high, item });
+    }
+  } else {
+    return null;
+  }
+}
+
+const list = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+console.log("====================================");
+console.log("running iterative binary search");
+console.log("====================================");
+console.log(
+  "exected result: 2, output: ",
+  iterativeBinarySearch({ list, item: 3 }),
+);
+console.log(
+  "exected result: 7, output: ",
+  iterativeBinarySearch({ list, item: 8 }),
+);
+console.log(
+  "exected result: null, output: ",
+  iterativeBinarySearch({ list, item: -1 }),
+);
+
+console.log("====================================");
+console.log("running recursive binary search");
+console.log("====================================");
+console.log(
+  "exected result: 2, output: ",
+  recursiveBinarySearch({ list, low: 0, high: list.length - 1, item: 3 }),
+);
+console.log(
+  "exected result: 7, output: ",
+  recursiveBinarySearch({ list, low: 0, high: list.length - 1, item: 8 }),
+);
+console.log(
+  "exected result: null, output: ",
+  recursiveBinarySearch({ list, low: 0, high: list.length - 1, item: -1 }),
+);
+console.log("====================================");
