@@ -3,7 +3,7 @@ function iterativeBinarySearch<T>({
   item,
 }: {
   list: T[];
-  item: T;
+  item: T | number;
 }): number | null {
   // list should already be sorted but making sure
   list.sort((a, b) => (a < b ? -1 : 1));
@@ -35,55 +35,101 @@ function recursiveBinarySearch<T>({
   list: T[];
   low: number;
   high: number;
-  item: T;
+  item: T | number;
 }): number | null {
   if (high >= low) {
-    const mid = Math.floor(high + low / 2);
+    const mid = Math.floor((high + low) / 2);
     const guess = list[mid];
-
     if (guess === item) {
       return mid;
     } else if (guess > item) {
-      return recursiveBinarySearch({ list, low, high: mid - 1, item });
+      try {
+        return recursiveBinarySearch({
+          list,
+          low,
+          high: mid - 1,
+          item,
+        });
+      } catch (e) {
+        const msg = { e, item, mid, low, high, size: list.length };
+        console.error(msg);
+        throw new Error();
+      }
     } else {
-      return recursiveBinarySearch({ list, low: mid + 1, high, item });
+      try {
+        return recursiveBinarySearch({
+          list,
+          low: mid + 1,
+          high,
+          item,
+        });
+      } catch (e) {
+        const msg = { e, item, mid, low, high, size: list.length };
+        console.error(msg);
+        throw new Error();
+      }
     }
   } else {
     return null;
   }
 }
 
-const list = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+function runIterativeBinarySearch<T>(list: T[]) {
+  const start = new Date().getTime();
+  let value: number | null = Math.floor(Math.random() * list.length - 1);
+  const result = iterativeBinarySearch({ list, item: value });
+		value = value <= 0 ? null : value - 1;
+  console.log(
+    "expected result: ",
+    value,
+    "output: ",
+    result,
+    value === result ? "✅" : "❌",
+  );
+  const end = new Date().getTime();
+  console.log("Time taken: ", end - start, "ms");
+}
 
-console.log("====================================");
-console.log("running iterative binary search");
-console.log("====================================");
-console.log(
-  "exected result: 2, output: ",
-  iterativeBinarySearch({ list, item: 3 }),
-);
-console.log(
-  "exected result: 7, output: ",
-  iterativeBinarySearch({ list, item: 8 }),
-);
-console.log(
-  "exected result: null, output: ",
-  iterativeBinarySearch({ list, item: -1 }),
-);
+function runRecursiveBinarySearchy<T>(list: T[]) {
+  const start = new Date().getTime();
+  const value = Math.floor(Math.random() * list.length - 1);
+  const result = recursiveBinarySearch({
+    list,
+    low: 0,
+    high: list.length - 1,
+    item: value,
+  });
+  console.log(
+    "expected result: ",
+    value - 1,
+    "output: ",
+    result,
+    value - 1 === result ? "✅" : "❌",
+  );
+  const end = new Date().getTime();
+  console.log("Time taken: ", end - start, "ms");
+}
 
-console.log("====================================");
-console.log("running recursive binary search");
-console.log("====================================");
-console.log(
-  "exected result: 2, output: ",
-  recursiveBinarySearch({ list, low: 0, high: list.length - 1, item: 3 }),
-);
-console.log(
-  "exected result: 7, output: ",
-  recursiveBinarySearch({ list, low: 0, high: list.length - 1, item: 8 }),
-);
-console.log(
-  "exected result: null, output: ",
-  recursiveBinarySearch({ list, low: 0, high: list.length - 1, item: -1 }),
-);
-console.log("====================================");
+const sizes = [10, 100, 1000, 10000, 1000000];
+
+sizes.forEach((size, idx) => {
+  console.log("");
+  console.log(`# running test ${idx + 1} of ${sizes.length} #`);
+  const list = Array.from(Array(size).keys()).map((i) => i + 1);
+
+  console.log("====================================");
+  console.log(`running iterative binary search on array of ${size} values`);
+  console.log("====================================");
+  runIterativeBinarySearch(list);
+  runIterativeBinarySearch(list);
+  runIterativeBinarySearch(list);
+  console.log("");
+  console.log("====================================");
+  console.log(`running recursive binary search on array of ${size} values`);
+  console.log("====================================");
+  runRecursiveBinarySearchy(list);
+  runRecursiveBinarySearchy(list);
+  runRecursiveBinarySearchy(list);
+  console.log("====================================");
+  console.log("");
+});
