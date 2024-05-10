@@ -78,7 +78,7 @@ function runIterativeBinarySearch<T>(list: T[]) {
   const start = new Date().getTime();
   let value: number | null = Math.floor(Math.random() * list.length - 1);
   const result = iterativeBinarySearch({ list, item: value });
-		value = value <= 0 ? null : value - 1;
+  value = value <= 0 ? null : value - 1;
   console.log(
     "expected result: ",
     value,
@@ -92,19 +92,21 @@ function runIterativeBinarySearch<T>(list: T[]) {
 
 function runRecursiveBinarySearchy<T>(list: T[]) {
   const start = new Date().getTime();
-  const value = Math.floor(Math.random() * list.length - 1);
+  let value: number | null = Math.floor(Math.random() * list.length - 1);
   const result = recursiveBinarySearch({
     list,
     low: 0,
     high: list.length - 1,
     item: value,
   });
+
+		value = value <= 0 ? null : value - 1;
   console.log(
     "expected result: ",
-    value - 1,
+    value,
     "output: ",
     result,
-    value - 1 === result ? "✅" : "❌",
+    value === result ? "✅" : "❌",
   );
   const end = new Date().getTime();
   console.log("Time taken: ", end - start, "ms");
