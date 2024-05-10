@@ -100,7 +100,7 @@ function runRecursiveBinarySearchy<T>(list: T[]) {
     item: value,
   });
 
-		value = value <= 0 ? null : value - 1;
+  value = value <= 0 ? null : value - 1;
   console.log(
     "expected result: ",
     value,
